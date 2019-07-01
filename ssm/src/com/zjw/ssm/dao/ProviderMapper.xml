@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.ProviderMapper">
+  <select id="findAllProvider" resultType="com.zjw.ssm.pojo.Provider">
+	select * from t_provider
+	</select>
+	<select id="findProviderBypid" parameterType="Integer" resultType="com.zjw.ssm.pojo.Provider">
+		select * from t_provider where pid=#{pid}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="findAllProviderBypname" resultType="com.zjw.ssm.pojo.Provider" parameterType="String">
+		select * from t_provider where pname like '%${value}%'
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertProvider" parameterType="com.zjw.ssm.pojo.Provider">
+		insert into t_provider values(null,#{pname},#{intro})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteProvider" parameterType="Integer">
+		delete from t_provider where pid=#{pid}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateProvider" parameterType="com.zjw.ssm.pojo.Provider">
+		update t_provider
+		<set> 
+		<if test="pname!='' and pname!=null">
+			pname=#{pname},
+		</if>
+		
+		</set>
+		<where>pid=#{pid}</where>
+		<!-- where pid=#{pid} -->
+		
+	</update>
+</mapper>

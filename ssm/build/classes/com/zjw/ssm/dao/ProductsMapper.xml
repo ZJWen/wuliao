@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.ProductsMapper">
+  <select id="findAllProducts" resultType="com.zjw.ssm.pojo.Products">
+	select * from t_products order by createtime desc
+	</select>
+	<select id="findAllProductsNoRow" resultType="com.zjw.ssm.pojo.Products">
+	select * from t_products order by createtime desc
+	</select>
+	<select id="selectCount" resultType="Integer">
+		select count(*) from t_products
+	</select>
+	<select id="findProductsById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Products">
+		select * from t_products where id=#{id}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="findAllProductsByName" resultType="com.zjw.ssm.pojo.Products" parameterType="String">
+		select * from t_products where name like '%${value}%' order by createtime desc
+	</select>
+	
+	<select id="findProductsDySQL" parameterType="com.zjw.ssm.pojo.Products" resultType="com.zjw.ssm.pojo.Products">
+		select * from t_products
+		<where>
+			<if test="bid!=0">
+				bid=#{bid}
+			</if>
+			<if test="sid!=0">
+				and sid=#{sid}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	<!-- 插入用户 -->
+	<insert id="insertProducts" parameterType="com.zjw.ssm.pojo.Products">
+		insert into t_products values(null,#{name},#{bid},#{sid},#{units},#{count},#{wvalue},#{state},#{createtime})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteProducts" parameterType="Integer">
+		delete from t_products where id=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateProducts" parameterType="com.zjw.ssm.pojo.Products">
+		update t_products
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name},
+		</if>
+		<if test="count!=null">
+			count=#{count},
+		</if>
+		<if test="bid!=null">
+			bid=#{bid},
+		</if>
+		<if test="sid!=null">
+			sid=#{sid},
+		</if>
+		<if test="units!=null">
+			units=#{units},
+		</if>
+		<if test="wvalue!=null">
+			wvalue=#{wvalue},
+		</if>
+		
+		</set>
+		<where>id=#{id}</where>
+		<!-- where id=#{id} -->
+		
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

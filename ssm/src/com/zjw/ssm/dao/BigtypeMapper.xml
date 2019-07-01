@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.BigtypeMapper">
+  	<select id="findAllBigtype" resultType="com.zjw.ssm.pojo.Bigtype">
+	select * from t_bigtype
+	</select>
+	<select id="findBigtypeById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Bigtype">
+		select * from t_bigtype where id=#{id}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="findAllBigtypeByName" resultType="com.zjw.ssm.pojo.Bigtype" parameterType="String">
+		select * from t_bigtype where name like '%${value}%'
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertBigtype" parameterType="com.zjw.ssm.pojo.Bigtype">
+		insert into t_bigtype values(null,#{name},#{state})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteBigtype" parameterType="Integer">
+		delete from t_bigtype where id=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateBigtype" parameterType="com.zjw.ssm.pojo.Bigtype">
+		update t_bigtype
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name},
+		</if>
+		<if test="state!='' and state!=null">
+			state=#{state}
+		</if>
+		</set>
+		<where>id=#{id}</where>
+		<!-- where id=#{id} -->
+		
+	</update>
+</mapper>

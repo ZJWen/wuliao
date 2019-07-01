@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.SmalltypeMapper">
+  <select id="findAllSmalltype" resultType="com.zjw.ssm.pojo.Smalltype">
+		select * from t_smalltype
+	</select>
+	<select id="findSmalltypeById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Smalltype">
+		select * from t_smalltype where id=#{id}
+	</select>
+	
+	<select id="selectByBid"  parameterType="Integer" resultType="com.zjw.ssm.pojo.Smalltype">
+		select * from t_smalltype where bid=#{bid}
+	</select>
+	
+	<!-- 模糊查询 -->
+	<select id="findAllSmalltypeByName" resultType="com.zjw.ssm.pojo.Smalltype" parameterType="String">
+		select * from t_smalltype where name like '%${value}%'
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertSmalltype" parameterType="com.zjw.ssm.pojo.Smalltype">
+		insert into t_smalltype values(null,#{name},#{bid},#{state})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteSmalltype" parameterType="Integer">
+		delete from t_smalltype where id=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateSmalltype" parameterType="com.zjw.ssm.pojo.Smalltype">
+		update t_smalltype
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name}
+		</if>
+		
+		
+		</set>
+		<where>id=#{id}</where>
+		<!-- where id=#{id} -->
+		
+	</update>
+</mapper>

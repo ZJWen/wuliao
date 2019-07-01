@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.zjw.ssm.dao.AdminMapper">
+	<select id="findAdminByNameAndPwd" resultType="com.zjw.ssm.pojo.Admin" parameterType="com.zjw.ssm.pojo.Admin">
+		select * from t_admin where name=#{name} and pwd=#{pwd}
+	</select>
+	<select id="findAdminByName" parameterType="com.zjw.ssm.pojo.Admin" resultType="com.zjw.ssm.pojo.Admin">
+		select * from t_admin where name=#{name}
+	</select>
+	<select id="findAll" resultType="com.zjw.ssm.pojo.Admin">
+		select * from t_admin
+	</select>
+	<select id="findById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Admin">
+		select * from t_admin where id=#{id}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="findAllByName" resultType="com.zjw.ssm.pojo.Admin" parameterType="String">
+		select * from t_admin where name like '%${value}%'
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertAdmin" parameterType="com.zjw.ssm.pojo.Admin">
+		insert into t_admin values(null,#{name},#{pwd},#{state},#{lasttime})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteAdmin" parameterType="com.zjw.ssm.pojo.Admin">
+		delete from t_admin where id=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateAdmin" parameterType="com.zjw.ssm.pojo.Admin">
+		update t_admin 
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name},
+		</if>
+		<if test="pwd!='' and pwd!=null">
+			pwd=#{pwd},
+		</if>
+		<if test="state!=null">
+			state=#{state},
+		</if>
+		<if test="lasttime!=''">
+			lasttime=#{lasttime}
+		</if>
+		</set>
+		<where>id=#{id}</where>
+		<!-- where id=#{id} -->
+		
+	</update>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.InputMapper">
+ <select id="findAllInput" resultType="com.zjw.ssm.pojo.Input">
+	select * from t_input
+	</select>
+	<!-- 分组查询 -->
+	<select id="selectInputByGroup" resultType="com.zjw.ssm.pojo.Input">
+		select name,sum(pcount) pcount,sum(price) price from t_input group by name
+	</select>
+	<select id="findInputById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Input">
+		select * from t_input where id=#{id}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="findAllInputByName" resultType="com.zjw.ssm.pojo.Input" parameterType="String">
+		select * from t_input where name like '%${value}%'
+	</select>
+	<!-- 总数量 -->
+	<select id="sumCount" resultType="Integer">
+	 select sum(pcount) from t_input
+	</select>
+	<!-- 总金额 -->
+	<select id="sumPrice" resultType="Double">
+		select sum(price) from t_input
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertInput" parameterType="com.zjw.ssm.pojo.Input">
+		insert into t_input values(null,#{name},#{pcount},#{dprice},#{price},#{annt},#{operator}
+		,#{pname},#{inputtime})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteInput" parameterType="Integer">
+		delete from t_input where id=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateInput" parameterType="com.zjw.ssm.pojo.Input">
+		update t_input
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name}
+		</if>
+		</set>
+		<where>id=#{id}</where>
+		<!-- where id=#{id} -->
+	</update>
+	<!-- 入库模糊查询 -->
+	<select id="selectInputByNameOrTimeOn">
+		select * from t_input
+		<where>
+			<!-- if(name!="") -->
+		
+		1=1
+		</where>
+	
+	</select>
+	
+	
+	<!--初始时间结束时间名称经办人 供应商  -->
+	<select id="selectStartEnd" parameterType="com.zjw.ssm.pojo.ProInOutput" resultType="com.zjw.ssm.pojo.Input">
+		select * from t_input
+		<where>
+			<if test="name!='' and name!=null">
+				and name=#{name}
+			</if>
+			<if test="startTime!=null">
+			    and	inputtime&gt;=#{startTime}
+			</if>
+			<if test="endTime!=null">
+				and inputtime&lt;=#{endTime}
+			</if>
+			<if test="annt!='' and annt!=null">
+				and annt=#{annt}
+			</if>
+			<if test="pname!='' and pname!=null">
+				and pname=#{pname}
+			</if>
+			
+		</where>
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjw.ssm.dao.OutputMapper">
+ 	<select id="findAllOutput" resultType="com.zjw.ssm.pojo.Output">
+	select * from t_output
+	</select>
+	<select id="findOutputById" parameterType="Integer" resultType="com.zjw.ssm.pojo.Output">
+		select * from t_output where oid=#{oid}
+	</select>
+	
+	<!-- 分组查询 -->
+	<select id="selectOutputByGroup" resultType="com.zjw.ssm.pojo.Output">
+		select name,sum(pcount) pcount from t_output group by name
+	</select>
+	
+	<!-- 模糊查询 -->
+	<select id="findAllOutputByName" resultType="com.zjw.ssm.pojo.Output" parameterType="String">
+		select * from t_output where name like '%${value}%'
+	</select>
+	<!-- 插入用户 -->
+	<insert id="insertOutput" parameterType="com.zjw.ssm.pojo.Output">
+		insert into t_output values(null,#{name},#{pcount},#{price},#{annt},#{outputtime},#{operator})
+	</insert>
+	<!-- 实际开发中很少使用删除数据 -->
+	<delete id="deleteOutput" parameterType="Integer">
+		delete from t_output where oid=#{oid}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateOutput" parameterType="com.zjw.ssm.pojo.Output">
+		update t_output
+		<set> 
+		<if test="name!='' and name!=null">
+			name=#{name},
+		</if>
+		
+		</set>
+		<where>oid=#{oid}</where>
+		<!-- where id=#{id} -->
+		
+	</update>
+	
+	<!--初始时间结束时间名称经办人  -->
+	<select id="selectStartEndOut" parameterType="com.zjw.ssm.pojo.ProOutput" resultType="com.zjw.ssm.pojo.Output">
+		select * from t_output
+		<where>
+			<if test="name!='' and name!=null">
+				and name=#{name}
+			</if>
+			<if test="startTime!=null">
+			    and	outputtime&gt;=#{startTime}
+			</if>
+			<if test="endTime!=null">
+				and outputtime&lt;=#{endTime}
+			</if>
+			<if test="annt!='' and annt!=null">
+				and annt=#{annt}
+			</if>
+			
+			
+		</where>
+	</select>
+	
+	
+	
+</mapper>
